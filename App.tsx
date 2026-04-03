@@ -210,15 +210,17 @@ function App() {
   // Mobile Search State
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [themeTransition, setThemeTransition] = useState<{
-    active: boolean;
+    visible: boolean;
     x: number;
     y: number;
     radius: number;
+    targetDark: boolean;
   }>({
-    active: false,
+    visible: false,
     x: 0,
     y: 0,
     radius: 0,
+    targetDark: false,
   });
   
   // Category Action Auth State
@@ -838,24 +840,33 @@ function App() {
       window.clearTimeout(themeTransitionTimerRef.current);
     }
 
-    if (newMode) {
-      setThemeTransition({ active: false, x, y, radius: 0 });
+    setThemeTransition({
+      visible: true,
+      x,
+      y,
+      radius: 0,
+      targetDark: newMode,
+    });
+
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        applyThemeMode(true);
-        requestAnimationFrame(() => {
-          setThemeTransition({ active: true, x, y, radius });
+        setThemeTransition({
+          visible: true,
+          x,
+          y,
+          radius,
+          targetDark: newMode,
         });
       });
-    } else {
-      setThemeTransition({ active: true, x, y, radius });
-      applyThemeMode(false);
-      requestAnimationFrame(() => {
-        setThemeTransition({ active: false, x, y, radius: 0 });
-      });
-    }
+    });
 
     themeTransitionTimerRef.current = window.setTimeout(() => {
-      setThemeTransition(prev => ({ ...prev, active: false, radius: 0 }));
+      applyThemeMode(newMode);
+      setThemeTransition(prev => ({
+        ...prev,
+        visible: false,
+        radius: 0,
+      }));
       themeTransitionTimerRef.current = null;
     }, 750);
   };
@@ -2124,9 +2135,10 @@ function App() {
     <div className="flex h-screen overflow-hidden text-slate-900 dark:text-slate-50">
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[120] bg-slate-950 transition-[clip-path,opacity] duration-700 ease-out"
+        className="pointer-events-none fixed inset-0 z-[120] transition-[clip-path,opacity,background-color] duration-700 ease-out"
         style={{
-          opacity: themeTransition.active || themeTransition.radius > 0 ? 1 : 0,
+          backgroundColor: themeTransition.targetDark ? '#020617' : '#f8fafc',
+          opacity: themeTransition.visible ? 1 : 0,
           clipPath: `circle(${themeTransition.radius}px at ${themeTransition.x}px ${themeTransition.y}px)`,
         }}
       />
