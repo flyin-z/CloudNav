@@ -862,6 +862,11 @@ function App() {
 
     themeTransitionTimerRef.current = window.setTimeout(() => {
       applyThemeMode(newMode);
+      setThemeTransition(prev => ({
+        ...prev,
+        visible: false,
+        radius: 0,
+      }));
       themeTransitionTimerRef.current = null;
     }, 620);
   };
