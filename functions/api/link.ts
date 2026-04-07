@@ -36,7 +36,7 @@ const validateAuth = async (request: Request, env: Env) => {
     const authIssuedAt = authIssuedAtRaw ? Number(authIssuedAtRaw) : NaN;
     const expiryMs = passwordExpiryDays * 24 * 60 * 60 * 1000;
 
-    if (!Number.isFinite(authIssuedAt) || authIssuedAt <= 0 || Date.now() - authIssuedAt > expiryMs) {
+    if (Number.isFinite(authIssuedAt) && authIssuedAt > 0 && Date.now() - authIssuedAt > expiryMs) {
       return new Response(JSON.stringify({ error: '密码已过期，请重新输入' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
