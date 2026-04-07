@@ -14,6 +14,7 @@ https://github.com/aabacada/CloudNav-abcd
 3. 删除 `index.html` 里不存在的 `/index.css` 引用，避免额外 404 请求。
 4. WebDAV 设置现已支持写入 KV，并在登录后自动从 KV 拉回到当前设备。
 5. WebDAV 测试、上传失败时会显示后端真实报错，方便排查登录态或配置问题。
+6. WebDAV 弹窗文案改为通用描述，不再默认显示坚果云示例。
 
 </details>
 
