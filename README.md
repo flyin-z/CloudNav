@@ -11,12 +11,9 @@ https://github.com/aabacada/CloudNav-abcd
 
 1. 修复 AI 配置可被未授权读取的问题，`/api/storage?getConfig=ai` 现已要求登录校验。
 2. 修复 WebDAV 代理接口未鉴权的问题，备份、恢复、测试连接现在都需要有效登录态。
-3. 调整登录过期校验逻辑，改为按当前客户端登录时间判断，不再共用 KV 里的全局时间戳。
-4. 删除 `index.html` 里不存在的 `/index.css` 引用，避免额外 404 请求。
-5. 备份与恢复新增可选同步 WebDAV 配置，导出 JSON、WebDAV 上传、WebDAV 恢复、本地 JSON 导入现已统一支持。
-6. README 补充了 WebDAV 配置可选迁移说明。
-7. WebDAV 设置现已支持写入 KV，并在登录后自动从 KV 拉回到当前设备。
-8. WebDAV 测试、上传失败时会显示后端真实报错，方便排查登录态或配置问题。
+3. 删除 `index.html` 里不存在的 `/index.css` 引用，避免额外 404 请求。
+4. WebDAV 设置现已支持写入 KV，并在登录后自动从 KV 拉回到当前设备。
+5. WebDAV 测试、上传失败时会显示后端真实报错，方便排查登录态或配置问题。
 
 </details>
 
